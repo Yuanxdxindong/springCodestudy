@@ -1,11 +1,8 @@
 package Javacurrent;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-
 /**
- *
+ * @author yuanxindong
+ * @date
  */
 public class ThreadLocalDemo extends Thread {
     ThreadLocal threadLocal = new ThreadLocal();
@@ -15,7 +12,9 @@ public class ThreadLocalDemo extends Thread {
         String str  = super.getName()+"thread name";
         threadLocal.set(str);
         String s = addValue("2");
+        //此处时必须的，如果不进行remove 有可能导致ThreadLocal的线程泄露
         threadLocal.remove();
+
         System.out.println(s);
     }
 
