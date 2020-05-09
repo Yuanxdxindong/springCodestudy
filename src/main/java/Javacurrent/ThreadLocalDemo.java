@@ -13,8 +13,6 @@ public class ThreadLocalDemo extends Thread {
         threadLocal.set(str);
         String s = addValue("2");
         //此处时必须的，如果不进行remove 有可能导致ThreadLocal的线程泄露
-        threadLocal.remove();
-
         System.out.println(s);
     }
 
