@@ -5,10 +5,12 @@ package SerializableEnum;
  * @Date:2020/5/101:33
  */
 public enum PersonEnum {
+
     /**
      * 小圆
      */
-    YUANXINDONG("yuanxindong",1);
+    YUANXINDONG("yuanxindong",1),
+    YUANXINDONGA("yuanxindongA",2);
 
     ;
     private String age;
