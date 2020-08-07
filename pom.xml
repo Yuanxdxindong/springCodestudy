@@ -71,7 +71,11 @@
             <artifactId>sofa-rpc-all</artifactId>
             <version>5.4.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.googlecode.aviator</groupId>
+            <artifactId>aviator</artifactId>
+            <version>3.3.0</version>
+        </dependency>
     </dependencies>
 <repositories>
     <repository>

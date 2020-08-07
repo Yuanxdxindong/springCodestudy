@@ -9,5 +9,8 @@
         <module name="StudyDemo" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="athena-openapi-server" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

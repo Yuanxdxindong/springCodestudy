@@ -40,7 +40,6 @@ public class FutureExaple {
                 });
 // 等待任务 3 执行结果
         System.out.println(f3.join());
-
     }
 
     static void sleep(int t, TimeUnit u) {

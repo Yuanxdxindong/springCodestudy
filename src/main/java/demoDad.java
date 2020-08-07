@@ -1,15 +1,8 @@
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-import org.springframework.cache.annotation.Cacheable;
-
-import java.sql.CallableStatement;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * @author yuanxindong

@@ -10,6 +10,8 @@ public class mainTest {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfig.class);
         Person bean = applicationContext.getBean(Person.class);
         System.out.println("bean为："+bean);
+        String a = staticdemo.a;
+
 
     }
 }
