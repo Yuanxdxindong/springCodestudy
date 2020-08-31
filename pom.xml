@@ -76,6 +76,16 @@
             <artifactId>aviator</artifactId>
             <version>3.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.dotions</groupId>
+            <artifactId>commons</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.4</version>
+        </dependency>
     </dependencies>
 <repositories>
     <repository>

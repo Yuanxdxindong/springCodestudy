@@ -13,24 +13,26 @@ import java.util.Map;
 
 /**
  * @author yuanxindong
- * @date: 2020/8/7 15:15
+ * @date 2020/8/7 15:15
  */
 public class aviatorDemo2 {
     public static void main(String[] args) {
-//注册自定义表达式函数
+        //注册自定义表达式函数
         AviatorEvaluator.addFunction(new FieldsFunction());
         AviatorEvaluator.addFunction(new RedisCountFunction());
 
-        //用户指定规则
-        String expression = "redisCount('1','hour',fields('userid,ip,action')) >= 10000";
+        //函数的重复调用
+            String expression = "redisCount('1','hour',fields('userid,ip,action')) >= 10000";
         Expression compiledExp = AviatorEvaluator.compile(expression);
 
         //运行时收到数据
-        Map<String, Object> fields = new HashMap<String, Object>();
+        Map<String, Object> fields = new HashMap<>(8);
         fields.put("userid", "9527");
         fields.put("ip", "127.0.0.1");
         fields.put("phone", "18811223344");
         fields.put("action", "click");
+
+
 
         Boolean needAlarm = (Boolean) compiledExp.execute(fields);
 
@@ -65,7 +67,9 @@ public class aviatorDemo2 {
         }
 
         public String getName() {
+
             return "fields";
+
         }
     }
 
