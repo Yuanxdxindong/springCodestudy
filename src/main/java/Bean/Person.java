@@ -2,15 +2,13 @@ package Bean;
 
 import lombok.Data;
 
+/**
+ * @Author yuanxibndong
+ */
 @Data
-public class Person {
+public class Person implements Object{
     private String name;
     private Integer age;
     private String gender;
-
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
 
 }
