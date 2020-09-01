@@ -2,15 +2,10 @@ package SerializableEnum;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.support.hsf.HSFJSONUtils;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-import jdk.nashorn.internal.runtime.JSONFunctions;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**

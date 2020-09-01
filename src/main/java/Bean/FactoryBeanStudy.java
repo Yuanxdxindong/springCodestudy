@@ -3,8 +3,8 @@ package Bean;
 import org.springframework.beans.factory.FactoryBean;
 
     /**
-     * @authoryuanxindong
-     * @date: 2020/6/9 8:43 下午
+     * @author yuanxindong
+     * @date  2020/6/9 8:43 下午
      */
     public  class FactoryBeanStudy implements FactoryBean<Person> {
         private String  personInfo;

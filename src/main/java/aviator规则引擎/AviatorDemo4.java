@@ -1,10 +1,7 @@
 package aviator规则引擎;
 
-import com.alibaba.fastjson.support.odps.udf.CodecCheck;
 import com.alipay.sofa.rpc.common.utils.JSONUtils;
 import com.googlecode.aviator.AviatorEvaluator;
-import com.googlecode.aviator.runtime.function.AbstractFunction;
-import com.googlecode.aviator.runtime.type.AviatorObject;
 import ut.JsonUtils;
 
 import java.math.BigDecimal;
@@ -17,19 +14,10 @@ import java.util.*;
 public class AviatorDemo4 {
 
   private static volatile Set<String> authRuleConfigs = new HashSet<>(100);
+  private static volatile List<StorageEntry> storageEntryList = new ArrayList<>();
 
-  public static void main(String[] args) {
-    String function = "";
-
-    //创建存储的规则
-    List<StorageEntry> storageEntryList = new ArrayList<>();
-
-    // 将前端给过来的表达式
-    if (FunctionActuatorUtil.isCommonFunction(function)) {}
-
-    // 需要校验的数据
-    Map dateSource = getDateSource();
-
+  public static void main(String[] args) throws IllegalAccessException, InstantiationException {
+    String functionName = "";
     // 添加规则表达 允许的字段名 此处的规则都是先给前端一个字典，通过字典筛选框进行配置。
     addAuthRuleConfig("dateTime1 < dateTime2");
     addAuthRuleConfig("string1 == string2");
@@ -37,23 +25,57 @@ public class AviatorDemo4 {
     addAuthRuleConfig("bigInt1 == bigInt2 && dateTime1 > dateTime2");
     addAuthRuleConfig("string1 == string2 || dateTime1 > dateTime2");
     addAuthRuleConfig("string1 == string2 && dateTime1 > dateTime2");
-
-    // 存储在数据库中的真正配置
-
-    addAuthRuleConfig("dateTime1>" + VictorLibraryFunction.COUNT_TIME.getFunction());
-
-    addAuthRuleConfig("");
-    // addAuthRuleConfig("date<getDate())");
+    addAuthRuleConfig("dateTime1 > countTime(now,before,100,day)");
 
     // 获取规则
     Set<String> strings = authRuleConfigs;
     Iterator<String> iterator = strings.iterator();
 
     while (iterator.hasNext()) {
-      String next = iterator.next();
-      System.out.println(next);
-      Object execute = AviatorEvaluator.execute(next, dateSource);
+      addRule(functionName, iterator.next());
+    }
+    // 将前端给过来的表达式
+
+    // 需要校验的数据
+    Map dateSource = getDateSource();
+
+    // 读取配置的函数
+    List<StorageEntry> storageEntryList = AviatorDemo4.storageEntryList;
+
+    // 注册自定义函数表达式
+    AviatorEvaluator.addFunction(new CustomFunctionService.countTimeFunction());
+
+    // 遍历进行执行表达式校验这条数据是否符合规范
+    for (StorageEntry storageEntry : storageEntryList) {
+      dateSource.putAll(storageEntry.getValues());
+      Object execute = AviatorEvaluator.execute(storageEntry.getFunctionName(), dateSource);
       System.out.println(execute);
+    }
+  }
+
+  /**
+   * 前段传过来的函数进行解析存储
+   *
+   * @param functionName 函数名
+   * @param function 函数表达式
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   */
+  private static void addRule(String functionName, String function)
+      throws InstantiationException, IllegalAccessException {
+    // 判断是那一种表达式
+    if (FunctionActuatorUtil.isCommonFunction(function)) {
+
+      StorageEntry storageEntry = StorageEntry.commonStorageEntry(functionName);
+      storageEntryList.add(storageEntry);
+    } else {
+
+      String s = FunctionActuatorUtil.getFunctionName(function);
+      VictorLibraryFunction victorLibraryFunction = VictorLibraryFunction.fromValue(s);
+      // 匹配函数库自定义的函数
+      StorageEntry storageEntry =
+          StorageEntry.customerStorageEntry(functionName, victorLibraryFunction);
+      storageEntryList.add(storageEntry);
     }
   }
 
@@ -75,22 +97,7 @@ public class AviatorDemo4 {
     return data;
   }
 
-  /** 自定义函数 获取某一个时间的欠多少天和后多少天 */
-  static class countTimeFunction extends AbstractFunction {
-    // @Override
-    // public AviatorObject call(Map<String, Object> env, AviatorObject arg1, AviatorObject arg2,
-    // AviatorObject arg3) {
-    //
-    // }
-
-    @Override
-    public String getName() {
-      return "countTime";
-    }
-  }
-
   static void addAuthRuleConfig(String authRule) {
-
     authRuleConfigs.add(authRule);
   }
 }

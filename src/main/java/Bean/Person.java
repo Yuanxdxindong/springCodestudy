@@ -6,7 +6,7 @@ import lombok.Data;
  * @Author yuanxibndong
  */
 @Data
-public class Person implements Object{
+public class Person{
     private String name;
     private Integer age;
     private String gender;

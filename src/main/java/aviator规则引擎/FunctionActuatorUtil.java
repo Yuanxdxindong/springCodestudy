@@ -52,7 +52,7 @@ public class FunctionActuatorUtil<T> {
    * @param function
    * @return
    */
-  public static String functionName(String function) {
+  public static String getFunctionName(String function) {
     int ready = function.indexOf(SYMBOL_A) + 1;
     return function.substring(0, ready);
   }

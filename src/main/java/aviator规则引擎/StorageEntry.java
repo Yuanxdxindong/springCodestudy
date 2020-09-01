@@ -13,27 +13,6 @@ import java.util.Map;
 @Data
 @ToString
 public class StorageEntry {
-
-  public static StorageEntry commonStorageEntry(
-      FunctionTypeEnum type, String functionName) {
-    StorageEntry storageEntry = new StorageEntry();
-    storageEntry.setValues(new HashMap<>(2));
-    storageEntry.setFunction(functionName);
-    storageEntry.setType(type);
-    storageEntry.setFunctionName(functionName);
-    return storageEntry;
-  }
-
-    public static StorageEntry customerStorageEntry(
-            FunctionTypeEnum type, String functionName, String function) {
-        StorageEntry storageEntry = new StorageEntry();
-        storageEntry.setValues(new HashMap<>(2));
-        storageEntry.setFunction(functionName);
-        storageEntry.setType(type);
-        storageEntry.setFunctionName(functionName);
-        return storageEntry;
-    }
-
   private FunctionTypeEnum type;
   /** 前端给过来的string */
   private String functionName;
@@ -41,4 +20,33 @@ public class StorageEntry {
   private String function;
   /** 自定义函数的每个对应的值 */
   private Map<String, Object> values;
+  /**
+   * @param functionName 前端拼接函数
+   * @param
+   * @return
+   */
+  public static StorageEntry commonStorageEntry(String functionName) {
+    StorageEntry storageEntry = new StorageEntry();
+    storageEntry.setValues(new HashMap<>(2));
+    storageEntry.setFunction(functionName);
+    storageEntry.setType(FunctionTypeEnum.COMMON);
+    storageEntry.setFunctionName(functionName);
+    return storageEntry;
+  }
+
+  public static StorageEntry customerStorageEntry(
+      String functionName, VictorLibraryFunction victorLibraryFunction)
+      throws InstantiationException, IllegalAccessException {
+
+    StorageEntry storageEntry = new StorageEntry();
+
+    // 获取函数的value
+    storageEntry.setValues(
+        FunctionActuatorUtil.actuatorMap(functionName, victorLibraryFunction.getZ()));
+    storageEntry.setFunction(victorLibraryFunction.getFunction());
+    storageEntry.setType(FunctionTypeEnum.COMMON);
+    storageEntry.setFunctionName(functionName);
+    return storageEntry;
+  }
+
 }
